@@ -27,7 +27,6 @@ import java.security.PrivateKey;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
     private ProgressDialog loadingBar;
     private Button LoginButton, PhoneLoginButton;
@@ -42,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
+
 
         InitializeFields(); // Añadir aquí la inicialización de campos
 
@@ -122,23 +121,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        currentUser = auth.getCurrentUser();
-
-        if(currentUser != null)
-        {
-            SendUserToMainActivity();
-        }
-    }
-
-    private void SendUserToMainActivity() {
-        Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(loginIntent);
+    private void SendUserToMainActivity()
+    {
+        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(mainIntent);
+        finish();
     }
 
     private void SendUserToRegisterActivity() {
